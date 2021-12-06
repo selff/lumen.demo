@@ -41,7 +41,9 @@ class CountriesController extends Controller
             'code' => 'alpha|size:2'
         ]);
 
-        $this->countryStorage->increment($request->input('code'));
+        $code = strtolower($request->input('code'));
+
+        $this->countryStorage->increment($code);
 
         return response(null, 201); // 201 - Created
     }
