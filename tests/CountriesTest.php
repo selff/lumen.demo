@@ -7,7 +7,7 @@ class CountriesTest extends TestCase
      */
     public function testShouldReturnAllCountries(){
 
-        $this->get("countries", []);
+        $this->get("api/countries", []);
         $this->seeStatusCode(200);
     }
 
@@ -16,11 +16,14 @@ class CountriesTest extends TestCase
      */
     public function testShouldCreateCountry(){
 
+        $randomCode = chr(rand(97,122)) . chr(rand(97,122));
         $parameters = [
-            'code' => chr(rand(97,122)) . chr(rand(97,122))
+            'code' => $randomCode
         ];
-
-        $this->post("countries", $parameters, []);
+        $this->post("api/countries", $parameters, []);
+        $this->seeStatusCode(201);
+        $this->get("api/countries", []);
         $this->seeStatusCode(200);
+        $this->seeJsonStructure([$randomCode]);
     }
 }
